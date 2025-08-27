@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import UserList from "./components/UserList";
 import Footer from "./components/Footer";
 import AppInfo from "./components/AppInfo";
+import PostList from "./components/PostList";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -39,7 +40,7 @@ function App() {
       name: form.name.value,
       mail: form.mail.value,
       title: form.title.value,
-      image: form.image.value
+      image: form.image.value,
     };
     setUsers([...users, newUser]);
     form.reset();
@@ -47,7 +48,7 @@ function App() {
 
   // Step 5.3: Slet bruger funktion
   function handleDeleteUser(id) {
-    setUsers(users.filter(user => user.id !== id));
+    setUsers(users.filter((user) => user.id !== id));
   }
 
   // Step 3.3: Vis loader mens data hentes
@@ -80,6 +81,7 @@ function App() {
       </form>
 
       <UserList users={users} onDelete={handleDeleteUser} />
+      <PostList />
       <Footer />
     </div>
   );

@@ -17,6 +17,8 @@ Keys er et vigtigt koncept i React når du renderer lister. Keys hjælper React 
    - Åbn Developer Tools i browseren og kig efter warnings
    - Hvad sker der i konsollen?
 
+Vi får warnings - men pga. restrictMode I guess?
+
 2. **Test med dårlige keys:**
 
    ```jsx
@@ -35,7 +37,7 @@ Keys er et vigtigt koncept i React når du renderer lister. Keys hjælper React 
    ```jsx
    // ✅ Godt eksempel - brug unik id som key
    {
-     users.map(user => (
+     users.map((user) => (
        <UserCard user={user} key={user.id} onDelete={handleDeleteUser} />
      ));
    }
@@ -46,8 +48,11 @@ Keys er et vigtigt koncept i React når du renderer lister. Keys hjælper React 
 Tilføj en kommentar i din UserList komponent der forklarer:
 
 - Hvad keys er
+  //Er nøgle til at target bestemte items/object properties og ændre dem uden at skulle ændre alle objekter på én gang
 - Hvorfor de er vigtige
+  //De er vigtige fordi ellers skal skal man ændre for meget data på én gang
 - Hvad der gør en god key
+  //pas
 
 ---
 
@@ -97,7 +102,7 @@ I praksis henter man ofte data fra forskellige API'er. Du lærer at arbejde med 
        <div>
          <h2>Latest Posts</h2>
          <ul>
-           {posts.map(post => (
+           {posts.map((post) => (
              <li key={post.id}>
                <h3>{post.title}</h3>
                <p>{post.body.substring(0, 100)}...</p>
@@ -200,7 +205,7 @@ Når du henter data fra API'er skal du håndtere forskellige tilstande: loading,
          <h2>Latest Posts from JSONPlaceholder</h2>
          <p className="api-info">✅ {posts.length} posts hentet succesfuldt!</p>
          <ul className="posts-list">
-           {posts.map(post => (
+           {posts.map((post) => (
              <li key={post.id} className="post-item">
                <h3>
                  Post #{post.id}: {post.title}
@@ -282,8 +287,9 @@ Når du henter data fra API'er skal du håndtere forskellige tilstande: loading,
              color: "white",
              border: "none",
              borderRadius: "5px",
-             cursor: loading ? "not-allowed" : "pointer"
-           }}>
+             cursor: loading ? "not-allowed" : "pointer",
+           }}
+         >
            {loading ? "⏳ Henter..." : "🔄 Refresh Posts"}
          </button>
 
@@ -295,7 +301,7 @@ Når du henter data fra API'er skal du håndtere forskellige tilstande: loading,
            <>
              <p className="api-info">✅ {posts.length} posts hentet!</p>
              <ul className="posts-list">
-               {posts.map(post => (
+               {posts.map((post) => (
                  <li key={post.id} className="post-item">
                    <h3>
                      Post #{post.id}: {post.title}
@@ -354,7 +360,7 @@ JSONPlaceholder er et "fake" API der simulerer server kommunikation. Det er perf
        name: form.name.value,
        mail: form.mail.value,
        title: form.title.value,
-       image: form.image.value
+       image: form.image.value,
      };
 
      console.log("Sender til server:", newUser);
@@ -366,9 +372,9 @@ JSONPlaceholder er et "fake" API der simulerer server kommunikation. Det er perf
          {
            method: "POST",
            headers: {
-             "Content-Type": "application/json"
+             "Content-Type": "application/json",
            },
-           body: JSON.stringify(newUser)
+           body: JSON.stringify(newUser),
          }
        );
 
@@ -380,7 +386,7 @@ JSONPlaceholder er et "fake" API der simulerer server kommunikation. Det er perf
        // Tilføj til lokal liste (med vores eget ID)
        const userWithId = {
          ...newUser,
-         id: crypto.randomUUID()
+         id: crypto.randomUUID(),
        };
 
        setUsers([...users, userWithId]);
@@ -411,14 +417,14 @@ JSONPlaceholder er et "fake" API der simulerer server kommunikation. Det er perf
        const response = await fetch(
          `https://jsonplaceholder.typicode.com/users/${id}`,
          {
-           method: "DELETE"
+           method: "DELETE",
          }
        );
 
        console.log("Delete response status:", response.status);
 
        // Fjern fra lokal liste
-       setUsers(users.filter(user => user.id !== id));
+       setUsers(users.filter((user) => user.id !== id));
        console.log("✅ Bruger slettet lokalt");
      } catch (error) {
        console.error("❌ Fejl ved sletning:", error);
@@ -499,21 +505,23 @@ Mange applikationer henter data fra flere API kilder og kombinerer dem. Du lære
          style={{
            border: "2px solid #007bff",
            padding: "20px",
-           margin: "20px 0"
-         }}>
+           margin: "20px 0",
+         }}
+       >
          <h2>Users og deres Posts</h2>
          <p>
            📊 Data: {users.length} users og {posts.length} posts
          </p>
 
-         {users.map(user => (
+         {users.map((user) => (
            <div
              key={user.id}
              style={{
                border: "1px solid #ccc",
                padding: "10px",
-               margin: "10px 0"
-             }}>
+               margin: "10px 0",
+             }}
+           >
              <h3>
                {user.name} (User #{user.id})
              </h3>
@@ -521,16 +529,17 @@ Mange applikationer henter data fra flere API kilder og kombinerer dem. Du lære
 
              <h4>Posts af denne bruger:</h4>
              {posts
-               .filter(post => post.userId === user.id)
+               .filter((post) => post.userId === user.id)
                .slice(0, 2)
-               .map(post => (
+               .map((post) => (
                  <div
                    key={post.id}
                    style={{
                      backgroundColor: "#f8f9fa",
                      padding: "8px",
-                     margin: "5px 0"
-                   }}>
+                     margin: "5px 0",
+                   }}
+                 >
                    <strong>Post #{post.id}:</strong> {post.title}
                  </div>
                ))}
@@ -575,12 +584,12 @@ Mange applikationer henter data fra flere API kilder og kombinerer dem. Du lære
 
          const [usersResponse, postsResponse] = await Promise.all([
            fetch("https://jsonplaceholder.typicode.com/users"),
-           fetch("https://jsonplaceholder.typicode.com/posts")
+           fetch("https://jsonplaceholder.typicode.com/posts"),
          ]);
 
          const [usersData, postsData] = await Promise.all([
            usersResponse.json(),
-           postsResponse.json()
+           postsResponse.json(),
          ]);
 
          const endTime = Date.now();
@@ -630,7 +639,7 @@ Når du har data fra API'er vil du ofte filtrere og søge i dem. Dette er grundl
 
      // Filtrér posts baseret på søgning
      const filteredPosts = posts.filter(
-       post =>
+       (post) =>
          post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
          post.body.toLowerCase().includes(searchTerm.toLowerCase())
      );
@@ -644,13 +653,13 @@ Når du har data fra API'er vil du ofte filtrere og søge i dem. Dette er grundl
            type="text"
            placeholder="🔍 Søg i posts..."
            value={searchTerm}
-           onChange={e => setSearchTerm(e.target.value)}
+           onChange={(e) => setSearchTerm(e.target.value)}
            style={{
              width: "100%",
              padding: "10px",
              marginBottom: "20px",
              border: "1px solid #ccc",
-             borderRadius: "5px"
+             borderRadius: "5px",
            }}
          />
 
@@ -662,7 +671,7 @@ Når du har data fra API'er vil du ofte filtrere og søge i dem. Dette er grundl
                📊 Viser {filteredPosts.length} af {posts.length} posts
              </p>
              <ul className="posts-list">
-               {filteredPosts.map(post => (
+               {filteredPosts.map((post) => (
                  <li key={post.id} className="post-item">
                    <h3>
                      Post #{post.id}: {post.title}
@@ -686,7 +695,7 @@ Når du har data fra API'er vil du ofte filtrere og søge i dem. Dette er grundl
    const [selectedUserId, setSelectedUserId] = useState("");
 
    // Kombiner filtreringer
-   const filteredPosts = posts.filter(post => {
+   const filteredPosts = posts.filter((post) => {
      const matchesSearch =
        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
        post.body.toLowerCase().includes(searchTerm.toLowerCase());
@@ -702,16 +711,17 @@ Når du har data fra API'er vil du ofte filtrere og søge i dem. Dette er grundl
        type="text"
        placeholder="🔍 Søg i posts..."
        value={searchTerm}
-       onChange={e => setSearchTerm(e.target.value)}
+       onChange={(e) => setSearchTerm(e.target.value)}
        style={{ flex: 1, padding: "10px" }}
      />
 
      <select
        value={selectedUserId}
-       onChange={e => setSelectedUserId(e.target.value)}
-       style={{ padding: "10px" }}>
+       onChange={(e) => setSelectedUserId(e.target.value)}
+       style={{ padding: "10px" }}
+     >
        <option value="">👥 Alle brugere</option>
-       {[1, 2, 3, 4, 5].map(id => (
+       {[1, 2, 3, 4, 5].map((id) => (
          <option key={id} value={id}>
            User {id}
          </option>
