@@ -230,11 +230,13 @@ Når du henter data fra API'er skal du håndtere forskellige tilstande: loading,
 
    - Slå din internetforbindelse fra
    - Genindlæs siden og se fejlbeskeden
+     //Get request siger fejl og disconnected til internet - kan ikke hente dataen
    - Tænd internettet igen og klik "Prøv igen"
 
 2. **Test med forkert URL:**
    - Ændr URL til noget forkert (fx `https://jsonplaceholder.typicode.com/wrong-url`)
    - Se hvilken fejl du får
+     404 - data kunne ikke findes
    - Ret URL'en igen
 
 ### Step 8.3: Tilføj en manuel refresh knap
